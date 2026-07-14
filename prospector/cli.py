@@ -101,6 +101,40 @@ def _cmd_publicar(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_aprovar(args: argparse.Namespace) -> int:
+    conn = db.conectar(args.db)
+    if db.ler_lead(conn, args.slug) is None:
+        print(f"Lead '{args.slug}' não encontrado.")
+        return 1
+    from prospector.orquestrador.nucleo import Orquestrador
+    from prospector.criacao.criador import Criador
+    from prospector.criacao.boundaries import gerar_index_com_claude
+    from prospector.publicacao.github_pages import Publicador
+    from prospector.publicacao.boundaries import publicar_via_git
+    from prospector.envio.mailer import Mailer, Supressao
+    from prospector.envio.boundaries import enviar_resend
+    from prospector.canal.boundaries import enviar_telegram
+    import os
+    tok = os.environ.get("TELEGRAM_BOT_TOKEN", ""); chat = os.environ.get("TELEGRAM_CHAT_ID", "")
+    key = os.environ.get("RESEND_API_KEY", "")
+    orq = Orquestrador(
+        Criador(gerar_index_com_claude),
+        Publicador(lambda l, s: publicar_via_git(l, s, args.repo_dir), args.base_url),
+        Mailer(lambda to, a, h: enviar_resend(to, a, h, args.from_email, key), Supressao(), args.from_email),
+        lambda msg: enviar_telegram(tok, chat, msg) if tok else print(msg),
+        conn)
+    orq.aprovar(args.slug)
+    print(f"aprovado e enviado: {args.slug}")
+    return 0
+
+
+def _cmd_atender(args: argparse.Namespace) -> int:
+    # prospecta (provider fake por padrão) e processa cada lead
+    from prospector.orquestrador.nucleo import Orquestrador
+    print("atender: use --db e o provider fake; wiring completo depende de credenciais reais.")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="prospector")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -134,6 +168,21 @@ def main(argv: list[str] | None = None) -> int:
     p_pub.add_argument("--base-url", default="https://inematds.github.io/prospector-sites")
     p_pub.add_argument("--repo-dir", default="../prospector-sites")
     p_pub.set_defaults(func=_cmd_publicar)
+
+    p_apr = sub.add_parser("aprovar", help="aprova e envia a proposta de um lead")
+    p_apr.add_argument("slug")
+    p_apr.add_argument("--db", default="prospector.db")
+    p_apr.add_argument("--base-url", default="https://inematds.github.io/prospector-sites")
+    p_apr.add_argument("--repo-dir", default="../prospector-sites")
+    p_apr.add_argument("--from-email", default="contato@cold.exemplo.com")
+    p_apr.set_defaults(func=_cmd_aprovar)
+
+    p_at = sub.add_parser("atender", help="prospecta e processa a esteira")
+    p_at.add_argument("nicho")
+    p_at.add_argument("cidade")
+    p_at.add_argument("--auto", action="store_true")
+    p_at.add_argument("--db", default="prospector.db")
+    p_at.set_defaults(func=_cmd_atender)
 
     args = parser.parse_args(argv)
     return args.func(args)
