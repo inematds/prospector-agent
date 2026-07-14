@@ -1,0 +1,7 @@
+{
+  "nichos": ["nutricionistas", "advogados", "clinicas"],
+  "meta_leads": 10,
+  "dominio_publicacao": "seudominio.com",
+  "from_email": "contato@cold.seudominio.com",
+  "db_path": "prospector.db"
+}
