@@ -1,0 +1,21 @@
+# Segredos e config local
+.env
+prospector-config.json
+
+# Estado / dados gerados
+*.db
+sites/
+fila-publicacao.txt
+fila-publicada-*.txt
+publicador-log.txt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Node / diversos
+node_modules/
+.DS_Store
