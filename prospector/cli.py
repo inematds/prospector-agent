@@ -69,6 +69,38 @@ def _cmd_prospectar(args: argparse.Namespace) -> int:
     return 0
 
 
+def _lead_ou_erro(conn, slug):
+    lead = db.ler_lead(conn, slug)
+    if lead is None:
+        print(f"Lead '{slug}' não encontrado.")
+    return lead
+
+
+def _cmd_redesenhar(args: argparse.Namespace) -> int:
+    from prospector.criacao.criador import Criador
+    from prospector.criacao.boundaries import gerar_index_com_claude
+    conn = db.conectar(args.db)
+    lead = _lead_ou_erro(conn, args.slug)
+    if lead is None:
+        return 1
+    dest = Criador(gerar_index_com_claude).redesenhar(lead, conn)
+    print(f"redesenhado em {dest} (status: {lead.status})")
+    return 0
+
+
+def _cmd_publicar(args: argparse.Namespace) -> int:
+    from prospector.publicacao.github_pages import Publicador
+    from prospector.publicacao.boundaries import publicar_via_git
+    conn = db.conectar(args.db)
+    lead = _lead_ou_erro(conn, args.slug)
+    if lead is None:
+        return 1
+    pub = Publicador(lambda local, slug: publicar_via_git(local, slug, args.repo_dir), args.base_url)
+    url = pub.publicar(lead, conn, local_dir=f"sites/{args.slug}")
+    print(f"publicado: {url}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="prospector")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -90,6 +122,18 @@ def main(argv: list[str] | None = None) -> int:
     p_pros.add_argument("--meta", type=int, default=10)
     p_pros.add_argument("--db", default="prospector.db")
     p_pros.set_defaults(func=_cmd_prospectar)
+
+    p_red = sub.add_parser("redesenhar", help="gera a página premium do lead")
+    p_red.add_argument("slug")
+    p_red.add_argument("--db", default="prospector.db")
+    p_red.set_defaults(func=_cmd_redesenhar)
+
+    p_pub = sub.add_parser("publicar", help="sobe o site no GitHub Pages")
+    p_pub.add_argument("slug")
+    p_pub.add_argument("--db", default="prospector.db")
+    p_pub.add_argument("--base-url", default="https://inematds.github.io/prospector-sites")
+    p_pub.add_argument("--repo-dir", default="../prospector-sites")
+    p_pub.set_defaults(func=_cmd_publicar)
 
     args = parser.parse_args(argv)
     return args.func(args)
