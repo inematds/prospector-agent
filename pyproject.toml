@@ -1,0 +1,16 @@
+[project]
+name = "prospector-agent"
+version = "0.1.0"
+description = "Esteira semi-autônoma de prospecção e venda de sites"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+prospector = "prospector.cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
