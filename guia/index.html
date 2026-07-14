@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prospector Agent — Esteira semi-autônoma de prospecção e venda de sites</title>
+<meta name="description" content="Esteira que descobre negócios com site ruim, redesenha a página, publica no GitHub Pages e envia a proposta — orquestrador Python determinístico + IA só onde precisa, operado por Telegram.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
+    --txt:#e9e9ee; --mut:#9a9aa6; --amb:#E2A23B; --amb2:#f0c070; --sky:#38bdf8; --pro:#cbd5e1;
+    color-scheme:dark;
+  }
+  body.light{
+    --bg:#f6f7f9; --bg2:#eceef2; --card:#ffffff; --line:#e1e3ea;
+    --txt:#1a1a22; --mut:#5b5b68; --amb:#b9791d; --amb2:#a16207; --sky:#0369a1; --pro:#b45309;
+    color-scheme:light;
+  }
+  body.light .hero .glow{opacity:.5}
+  body.light pre{background:#0e0e14;color:#d6d6e0}
+  body.light pre .c{color:#8a8a98}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Sora,sans-serif;line-height:1.15;margin:0}
+  a{color:var(--amb);text-decoration:none}
+  code,pre{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+  .mut{color:var(--mut)} .amb{color:var(--amb)}
+  .chip{display:inline-block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);font-weight:600;font-family:Sora}
+  nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);background:rgba(12,12,16,.78);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+  nav .brand{display:flex;align-items:center;gap:8px;font-family:Sora;font-weight:800;letter-spacing:-.02em;color:var(--amb)}
+  nav .brand .emoji{font-size:1.25rem}
+  nav .sep{color:var(--mut);opacity:.45}
+  nav .inema{color:var(--sky);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .inema:hover{filter:brightness(1.15)}
+  nav .pro{color:var(--pro);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .pro:hover{filter:brightness(1.15)}
+  nav .clubpro{display:inline-flex;align-items:center;gap:6px}
+  nav .links{margin-left:auto;display:flex;align-items:center;gap:20px;font-size:.92rem}
+  nav .links a.sec{color:var(--mut)} nav .links a.sec:hover{color:var(--txt)}
+  .tgl{background:var(--bg2);border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem}
+  .tgl:hover{border-color:var(--amb)}
+  .btn{display:inline-block;background:var(--amb);color:#1a1206;font-weight:600;padding:.6em 1.05em;border-radius:10px;font-family:Sora}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  @media(max-width:760px){nav .links a.sec{display:none}}
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero .glow{position:absolute;inset:-40% -20% auto auto;width:70%;height:600px;background:radial-gradient(closest-side,rgba(226,162,59,.22),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:74px 22px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.025em}
+  .hero p.lead{font-size:1.18rem;color:var(--mut);margin:1.1em 0 1.6em;max-width:36ch}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000}
+  .hero figure img{width:100%;display:block}
+  @media(max-width:780px){.hero .wrap{grid-template-columns:1fr;padding:48px 22px}}
+  section{padding:62px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+  section .sub{color:var(--mut);margin:.6em 0 2em;max-width:62ch}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:820px){.g3,.g4{grid-template-columns:1fr 1fr}}
+  @media(max-width:540px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card h3{font-size:1.05rem;margin-bottom:.4em}
+  .card p{color:var(--mut);font-size:.92rem;margin:0}
+  .num{display:inline-flex;width:30px;height:30px;align-items:center;justify-content:center;border-radius:8px;background:rgba(226,162,59,.14);color:var(--amb);font-family:Sora;font-weight:800;font-size:.9rem;margin-bottom:.7em}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .flow span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:.45em .9em;font-size:.85rem;font-family:Sora;font-weight:600}
+  .flow .arr{color:var(--amb);border:none;background:none;padding:0 .1em}
+  .flow .gate{border-color:var(--amb);color:var(--amb)}
+  pre{background:#0a0a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.6;color:#d6d6e0}
+  pre .c{color:#6f6f7c} pre .k{color:var(--amb2)} pre .s{color:#9ece6a}
+  .step{display:grid;grid-template-columns:46px 1fr;gap:16px;margin-bottom:26px}
+  .step .b{width:46px;height:46px;border-radius:12px;background:var(--amb);color:#1a1206;font-family:Sora;font-weight:800;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+  .step h3{font-size:1.12rem;margin-bottom:.3em}
+  .step p{color:var(--mut);margin:.2em 0 .7em}
+  .ex{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:680px){.ex{grid-template-columns:1fr}}
+  .ex figure{margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+  .ex figure img{width:100%;display:block}
+  .ex figcaption{padding:12px 14px;font-size:.88rem;color:var(--mut);background:var(--card)}
+  .phase{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+  .phase:last-child{border:none}
+  .phase .tag{flex:0 0 110px;font-family:Sora;font-weight:800;color:var(--amb)}
+  .phase .d strong{display:block;margin-bottom:.2em}
+  .phase .d span{color:var(--mut);font-size:.92rem}
+  footer{padding:46px 0;text-align:center;color:var(--mut);font-size:.9rem}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:0 4px 6px}
+  .note{background:rgba(226,162,59,.08);border:1px solid rgba(226,162,59,.35);border-radius:12px;padding:14px 16px;color:var(--mut);font-size:.9rem;margin-top:6px}
+  .note strong{color:var(--amb)}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="emoji">⛏️</span> Prospector Agent</a>
+  <span class="sep">|</span>
+  <span class="clubpro">
+    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
+    <span class="sep">-</span>
+    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
+  </span>
+  <div class="links">
+    <a class="sec" href="#oque">O que é</a>
+    <a class="sec" href="#fluxo">Como funciona</a>
+    <a class="sec" href="#guia">Guia de uso</a>
+    <a class="sec" href="#nucleo">O núcleo</a>
+    <a class="sec" href="#roadmap">Roadmap</a>
+    <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
+    <a class="btn" href="https://github.com/inematds/prospector-agent" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="chip">Projeto em design · v1 em construção</span>
+      <h1>Uma agência de sites de <span class="amb">uma pessoa só</span>, no automático</h1>
+      <p class="lead">Descobre negócios bem avaliados com site ruim, redesenha a página, publica e manda a proposta — orquestrador determinístico + IA só onde precisa, operado pelo Telegram.</p>
+      <div class="cta">
+        <a class="btn" href="#guia">Começar o guia</a>
+        <a class="btn ghost" href="https://github.com/inematds/prospector-agent" target="_blank" rel="noopener">Ver no GitHub</a>
+      </div>
+    </div>
+    <pre><span class="c"># a esteira, do começo ao fim</span>
+descoberto
+  <span class="k">→</span> qualificado     <span class="c"># julga "site ruim?" (IA)</span>
+  <span class="k">→</span> redesenhado     <span class="c"># página premium (IA)</span>
+  <span class="k">→</span> publicado       <span class="c"># git → GitHub Pages</span>
+  <span class="k">→</span> <span class="s">[ PORTÃO ]</span>      <span class="c"># aprova no Telegram (ou --auto)</span>
+  <span class="k">→</span> enviado         <span class="c"># proposta via Resend</span>
+  <span class="k">→</span> respondido <span class="k">→</span> fechado</pre>
+  </div>
+</header>
+
+<section id="oque"><div class="wrap">
+  <span class="chip">O que é</span>
+  <h2>Uma esteira que roda <span class="amb">achou → refez → publicou → ofertou</span></h2>
+  <p class="sub">Semi-autônoma: as fases pesadas rodam sozinhas, e você mantém o controle do envio. Baseada no plugin <a href="https://github.com/inematds/prospector-agent">prospector-de-sites</a> (usado como referência), reconstruída como serviço operável.</p>
+  <div class="grid g3">
+    <div class="card"><h3>⛏️ Esteira completa</h3><p>Descobre, qualifica, redesenha, publica e envia — cada fase é um estágio de uma máquina de estados que sobrevive a reinício e é idempotente por lead.</p></div>
+    <div class="card"><h3>🧠 IA só onde precisa</h3><p>Fila, portão e estados são Python puro e testável. O modelo (<code>claude -p</code>) entra só pra julgar o site e redesenhar a página — o resto é código, sem gastar token.</p></div>
+    <div class="card"><h3>🔌 Plugável e portável</h3><p>A descoberta troca de navegador para API por config. A mesma base roda local, híbrido em VPS ou tudo em VPS — sem reescrever nada.</p></div>
+  </div>
+</div></section>
+
+<section id="fluxo"><div class="wrap">
+  <span class="chip">Como funciona</span>
+  <h2>O ciclo de vida de um lead</h2>
+  <p class="sub">Cada seta é uma transição idempotente: se já foi feita, pula. O único ponto de humano é o <strong>portão</strong> antes do envio — e ele some quando o pedido vem com <code>--auto</code>.</p>
+  <div class="flow">
+    <span>descoberto</span><span class="arr">→</span>
+    <span>qualificado</span><span class="arr">→</span>
+    <span>redesenhado</span><span class="arr">→</span>
+    <span>publicado</span><span class="arr">→</span>
+    <span class="gate">[ portão ]</span><span class="arr">→</span>
+    <span>enviado</span><span class="arr">→</span>
+    <span>respondido</span><span class="arr">→</span>
+    <span>fechado</span>
+  </div>
+  <p class="sub" style="margin-top:18px">Ramos: sem site / site bom / sem e-mail → <em>descartado</em>. Falha de rede/API → <em>erro</em> (alerta no Telegram, com <code>/retry</code>).</p>
+</div></section>
+
+<section id="pre"><div class="wrap">
+  <span class="chip">Pré-requisitos</span>
+  <h2>O que você vai precisar (v1, local)</h2>
+  <p class="sub">A v1 roda na sua máquina — o navegador resolve o captcha do Maps com você por perto. As versões seguintes migram pra API e VPS.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Python 3.11+</h3><p>Todo o núcleo. Sem dependências pesadas no começo.</p><pre><span class="c"># confira a versão</span>
+<span class="k">python3</span> --version</pre></div>
+    <div class="card"><h3>Claude Code CLI</h3><p>As fases de IA (qualificar, redesenhar) usam <code>claude -p</code> com skills.</p><pre><span class="c"># confira o CLI</span>
+<span class="k">claude</span> --version</pre></div>
+    <div class="card"><h3>Contas + segredos</h3><p>Resend (e-mail), GitHub (Pages), Telegram (bot). Tokens só no <code>.env</code>, nunca no chat.</p><pre><span class="c"># template</span>
+<span class="k">cp</span> .env.example .env</pre></div>
+  </div>
+</div></section>
+
+<section id="guia"><div class="wrap">
+  <span class="chip">Guia de uso · roteiro por milestone</span>
+  <h2>Como colocar de pé</h2>
+  <p class="sub">A construção é por milestones, cada um entregando software testável. O <strong>M1 (Fundação)</strong> é o alvo atual — o design e o plano já estão no repo.</p>
+
+  <div class="note"><strong>Status:</strong> em design/construção. Os comandos abaixo são a interface planejada; chegam milestone por milestone. Comece clonando e lendo o design.</div>
+
+  <div class="step" style="margin-top:26px"><div class="b">0</div><div>
+    <h3>Clonar e ler o design</h3>
+    <p>Todo o projeto parte de um spec e um plano versionados.</p>
+<pre><span class="k">git clone</span> <span class="s">https://github.com/inematds/prospector-agent</span>
+<span class="k">cd</span> prospector-agent
+<span class="c"># design completo e plano do M1:</span>
+<span class="c">#   docs/superpowers/specs/2026-07-14-prospector-agent-design.md</span>
+<span class="c">#   docs/superpowers/plans/2026-07-14-m1-fundacao.md</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">1</div><div>
+    <h3>M1 · Fundação — o núcleo e o dry-run</h3>
+    <p>Config, Store SQLite, máquina de estados e a CLI que avança um lead pela esteira sem publicar nem enviar.</p>
+<pre><span class="k">python</span> -m pytest -v                 <span class="c"># suíte do núcleo</span>
+<span class="k">python</span> -m prospector demo --dry-run --auto
+<span class="c"># → descoberto → qualificado → redesenhado → publicado → enviado</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
+    <h3>M2 · Descoberta + Qualificação</h3>
+    <p>Acha candidatos no Google Maps (nota ≥ 4.7, com site) e julga quais têm site ruim, extraindo e-mail e WhatsApp.</p>
+<pre><span class="k">prospector</span> prospectar <span class="s">nutricionistas</span> <span class="s">Bauru</span>
+<span class="c"># → leads qualificados salvos no prospector.db</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">3</div><div>
+    <h3>M3 · Criação + Publicação</h3>
+    <p>Redesenha a página premium (mantendo logo, cores e conteúdo reais) e publica no GitHub Pages com HTTPS.</p>
+<pre><span class="k">prospector</span> publicar <span class="s">&lt;slug&gt;</span>
+<span class="c"># → https://usuario.github.io/prospector-sites/&lt;slug&gt;/</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">4</div><div>
+    <h3>M4 · Envio + Telegram (esteira completa)</h3>
+    <p>Manda a proposta via Resend, com o portão de aprovação no Telegram. O bot opera tudo; o <code>--auto</code> pula o portão.</p>
+<pre><span class="c"># pelo bot do Telegram:</span>
+/prospectar <span class="s">nutricionistas</span> <span class="s">Bauru</span> --auto
+<span class="c"># fases correm sozinhas; o bot notifica cada envio</span></pre>
+  </div></div>
+</div></section>
+
+<section id="nucleo"><div class="wrap">
+  <span class="chip">O núcleo</span>
+  <h2>Controle determinístico, em código</h2>
+  <p class="sub">O coração do sistema não é o agente — é a máquina de estados e o portão. Ficam em código simples e testável; a IA é chamada só dentro de dois estágios.</p>
+  <div class="grid g2">
+    <pre><span class="c"># prospector/maquina_estados.py — transições válidas</span>
+TRANSICOES = {
+  DESCOBERTO: {QUALIFICADO, DESCARTADO},
+  QUALIFICADO: {REDESENHADO, DESCARTADO},
+  REDESENHADO: {PUBLICADO, ERRO},
+  PUBLICADO: {AGUARDANDO_APROVACAO, ENVIADO, ERRO},
+  AGUARDANDO_APROVACAO: {ENVIADO, DESCARTADO},
+  ENVIADO: {RESPONDIDO, ERRO},
+  RESPONDIDO: {FECHADO, DESCARTADO},
+}</pre>
+    <pre><span class="c"># o portão A+B, em uma linha</span>
+<span class="k">if</span> lead.sem_portao <span class="k">or</span> aprovado_no_telegram(lead):
+    enviar(lead)          <span class="c"># Resend</span>
+<span class="k">else</span>:
+    aguardar_aprovacao(lead)   <span class="c"># pede OK no Telegram</span>
+
+<span class="c"># dry-run: roda a esteira sem publicar nem enviar</span>
+$ python -m prospector demo --dry-run --auto
+descoberto → qualificado → redesenhado
+           → publicado → <span class="s">enviado</span></pre>
+  </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+  <span class="chip">Roadmap</span>
+  <h2>Local → híbrido → tudo em VPS</h2>
+  <p class="sub">A portabilidade de topologia é um princípio de design: a mesma base sobe de nível só trocando config e onde roda.</p>
+  <div class="phase"><div class="tag">v1 · Local</div><div class="d"><strong>Esteira completa na sua máquina</strong><span>Descoberta por navegador (você resolve o captcha), portão ligado, dashboard local.</span></div></div>
+  <div class="phase"><div class="tag">v1.x · Híbrido</div><div class="d"><strong>Orquestrador na VPS</strong><span>Bot, publicação e envio sempre no ar na VPS; o scanner (browser) fica local e empurra os leads.</span></div></div>
+  <div class="phase"><div class="tag">v2 · Tudo VPS</div><div class="d"><strong>Descoberta por API, sem navegador</strong><span>Places API (oficial) ou terceiros como provider plugável; repo próprio + domínio custom por cliente na conversão.</span></div></div>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div class="pill">Python 3.11+</div><div class="pill">SQLite</div><div class="pill">Claude Code (claude -p)</div><div class="pill">GitHub Pages</div><div class="pill">Resend</div><div class="pill">Telegram</div>
+    <p style="margin-top:18px">Prospector Agent · projeto em design — v1 em construção ·
+      <a href="https://github.com/inematds/prospector-agent">github.com/inematds/prospector-agent</a> ·
+      <a href="https://inema.club">INEMA.CLUB</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var KEY='prospector-agent-theme';
+    var b=document.body, t=document.getElementById('themeToggle');
+    if(localStorage.getItem(KEY)==='light'){ b.classList.add('light'); t.textContent='☀️'; }
+    t.addEventListener('click',function(){
+      var light=b.classList.toggle('light');
+      t.textContent=light?'☀️':'🌙';
+      localStorage.setItem(KEY, light?'light':'dark');
+    });
+  })();
+</script>
+</body>
+</html>
