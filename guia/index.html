@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Prospector Agent — Esteira semi-autônoma de prospecção e venda de sites</title>
-<meta name="description" content="Esteira que descobre negócios com site ruim, redesenha a página, publica no GitHub Pages e envia a proposta — orquestrador Python determinístico + IA só onde precisa, operado por Telegram.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta content="Esteira que descobre negócios com site ruim, redesenha a página, publica no GitHub Pages e envia a proposta — orquestrador Python determinístico + IA só onde precisa, operado por Telegram." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
 <style>
   :root{
     --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
@@ -93,41 +94,39 @@
   .note{background:rgba(226,162,59,.08);border:1px solid rgba(226,162,59,.35);border-radius:12px;padding:14px 16px;color:var(--mut);font-size:.9rem;margin-top:6px}
   .note strong{color:var(--amb)}
 </style>
-</head>
-<body>
-
+<link href="https://inematds.github.io/prospector-agent/guia/" hreflang="pt-BR" rel="alternate"/><link href="https://inematds.github.io/prospector-agent/guia/en/" hreflang="en" rel="alternate"/><link href="https://inematds.github.io/prospector-agent/guia/es/" hreflang="es" rel="alternate"/></head>
+<body><div class="inema-lang" style="position:fixed;right:14px;bottom:14px;z-index:9999;display:flex;gap:2px;padding:4px;border-radius:10px;background:rgba(12,12,16,.82);border:1px solid rgba(226,162,59,.45);font:600 12px/1 Sora,Inter,system-ui,sans-serif;backdrop-filter:blur(8px)" translate="no"><a href="./" hreflang="pt-BR" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#1a1206;background:#E2A23B">PT</a><a href="en/" hreflang="en" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">EN</a><a href="es/" hreflang="es" style="padding:6px 8px;border-radius:7px;text-decoration:none;color:#e9e9ee">ES</a></div>
 <nav><div class="wrap">
-  <a class="brand" href="#top"><span class="emoji">⛏️</span> Prospector Agent</a>
-  <span class="sep">|</span>
-  <span class="clubpro">
-    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
-    <span class="sep">-</span>
-    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
-  </span>
-  <div class="links">
-    <a class="sec" href="#oque">O que é</a>
-    <a class="sec" href="#fluxo">Como funciona</a>
-    <a class="sec" href="#guia">Guia de uso</a>
-    <a class="sec" href="#nucleo">O núcleo</a>
-    <a class="sec" href="#roadmap">Roadmap</a>
-    <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
-    <a class="btn" href="https://github.com/inematds/prospector-agent" target="_blank" rel="noopener">GitHub</a>
-  </div>
+<a class="brand" href="#top"><span class="emoji">⛏️</span> Prospector Agent</a>
+<span class="sep">|</span>
+<span class="clubpro">
+<a class="inema" href="https://inema.club" rel="noopener" target="_blank">INEMA.CLUB</a>
+<span class="sep">-</span>
+<a class="pro" href="https://inema.pro" rel="noopener" target="_blank">PRO</a>
+</span>
+<div class="links">
+<a class="sec" href="#oque">O que é</a>
+<a class="sec" href="#fluxo">Como funciona</a>
+<a class="sec" href="#guia">Guia de uso</a>
+<a class="sec" href="#nucleo">O núcleo</a>
+<a class="sec" href="#roadmap">Roadmap</a>
+<button aria-label="Alternar tema" class="tgl" id="themeToggle" title="Alternar tema">🌙</button>
+<a class="btn" href="https://github.com/inematds/prospector-agent" rel="noopener" target="_blank">GitHub</a>
+</div>
 </div></nav>
-
 <header class="hero" id="top">
-  <div class="glow"></div>
-  <div class="wrap">
-    <div>
-      <span class="chip">v1 · núcleo construído e testado (47 testes)</span>
-      <h1>Uma agência de sites de <span class="amb">uma pessoa só</span>, no automático</h1>
-      <p class="lead">Descobre negócios bem avaliados com site ruim, redesenha a página, publica e manda a proposta — orquestrador determinístico + IA só onde precisa, operado pelo Telegram.</p>
-      <div class="cta">
-        <a class="btn" href="#guia">Começar o guia</a>
-        <a class="btn ghost" href="https://github.com/inematds/prospector-agent" target="_blank" rel="noopener">Ver no GitHub</a>
-      </div>
-    </div>
-    <pre><span class="c"># a esteira, do começo ao fim</span>
+<div class="glow"></div>
+<div class="wrap">
+<div>
+<span class="chip">v1 · núcleo construído e testado (47 testes)</span>
+<h1>Uma agência de sites de <span class="amb">uma pessoa só</span>, no automático</h1>
+<p class="lead">Descobre negócios bem avaliados com site ruim, redesenha a página, publica e manda a proposta — orquestrador determinístico + IA só onde precisa, operado pelo Telegram.</p>
+<div class="cta">
+<a class="btn" href="#guia">Começar o guia</a>
+<a class="btn ghost" href="https://github.com/inematds/prospector-agent" rel="noopener" target="_blank">Ver no GitHub</a>
+</div>
+</div>
+<pre><span class="c"># a esteira, do começo ao fim</span>
 descoberto
   <span class="k">→</span> qualificado     <span class="c"># julga "site ruim?" (IA)</span>
   <span class="k">→</span> redesenhado     <span class="c"># página premium (IA)</span>
@@ -135,105 +134,94 @@ descoberto
   <span class="k">→</span> <span class="s">[ PORTÃO ]</span>      <span class="c"># aprova no Telegram (ou --auto)</span>
   <span class="k">→</span> enviado         <span class="c"># proposta via Resend</span>
   <span class="k">→</span> respondido <span class="k">→</span> fechado</pre>
-  </div>
+</div>
 </header>
-
 <section id="oque"><div class="wrap">
-  <span class="chip">O que é</span>
-  <h2>Uma esteira que roda <span class="amb">achou → refez → publicou → ofertou</span></h2>
-  <p class="sub">Semi-autônoma: as fases pesadas rodam sozinhas, e você mantém o controle do envio. Baseada no plugin <a href="https://github.com/inematds/prospector-agent">prospector-de-sites</a> (usado como referência), reconstruída como serviço operável.</p>
-  <div class="grid g3">
-    <div class="card"><h3>⛏️ Esteira completa</h3><p>Descobre, qualifica, redesenha, publica e envia — cada fase é um estágio de uma máquina de estados que sobrevive a reinício e é idempotente por lead.</p></div>
-    <div class="card"><h3>🧠 IA só onde precisa</h3><p>Fila, portão e estados são Python puro e testável. O modelo (<code>claude -p</code>) entra só pra julgar o site e redesenhar a página — o resto é código, sem gastar token.</p></div>
-    <div class="card"><h3>🔌 Plugável e portável</h3><p>A descoberta troca de navegador para API por config. A mesma base roda local, híbrido em VPS ou tudo em VPS — sem reescrever nada.</p></div>
-  </div>
+<span class="chip">O que é</span>
+<h2>Uma esteira que roda <span class="amb">achou → refez → publicou → ofertou</span></h2>
+<p class="sub">Semi-autônoma: as fases pesadas rodam sozinhas, e você mantém o controle do envio. Baseada no plugin <a href="https://github.com/inematds/prospector-agent">prospector-de-sites</a> (usado como referência), reconstruída como serviço operável.</p>
+<div class="grid g3">
+<div class="card"><h3>⛏️ Esteira completa</h3><p>Descobre, qualifica, redesenha, publica e envia — cada fase é um estágio de uma máquina de estados que sobrevive a reinício e é idempotente por lead.</p></div>
+<div class="card"><h3>🧠 IA só onde precisa</h3><p>Fila, portão e estados são Python puro e testável. O modelo (<code>claude -p</code>) entra só pra julgar o site e redesenhar a página — o resto é código, sem gastar token.</p></div>
+<div class="card"><h3>🔌 Plugável e portável</h3><p>A descoberta troca de navegador para API por config. A mesma base roda local, híbrido em VPS ou tudo em VPS — sem reescrever nada.</p></div>
+</div>
 </div></section>
-
 <section id="fluxo"><div class="wrap">
-  <span class="chip">Como funciona</span>
-  <h2>O ciclo de vida de um lead</h2>
-  <p class="sub">Cada seta é uma transição idempotente: se já foi feita, pula. O único ponto de humano é o <strong>portão</strong> antes do envio — e ele some quando o pedido vem com <code>--auto</code>.</p>
-  <div class="flow">
-    <span>descoberto</span><span class="arr">→</span>
-    <span>qualificado</span><span class="arr">→</span>
-    <span>redesenhado</span><span class="arr">→</span>
-    <span>publicado</span><span class="arr">→</span>
-    <span class="gate">[ portão ]</span><span class="arr">→</span>
-    <span>enviado</span><span class="arr">→</span>
-    <span>respondido</span><span class="arr">→</span>
-    <span>fechado</span>
-  </div>
-  <p class="sub" style="margin-top:18px">Ramos: sem site / site bom / sem e-mail → <em>descartado</em>. Falha de rede/API → <em>erro</em> (alerta no Telegram, com <code>/retry</code>).</p>
+<span class="chip">Como funciona</span>
+<h2>O ciclo de vida de um lead</h2>
+<p class="sub">Cada seta é uma transição idempotente: se já foi feita, pula. O único ponto de humano é o <strong>portão</strong> antes do envio — e ele some quando o pedido vem com <code>--auto</code>.</p>
+<div class="flow">
+<span>descoberto</span><span class="arr">→</span>
+<span>qualificado</span><span class="arr">→</span>
+<span>redesenhado</span><span class="arr">→</span>
+<span>publicado</span><span class="arr">→</span>
+<span class="gate">[ portão ]</span><span class="arr">→</span>
+<span>enviado</span><span class="arr">→</span>
+<span>respondido</span><span class="arr">→</span>
+<span>fechado</span>
+</div>
+<p class="sub" style="margin-top:18px">Ramos: sem site / site bom / sem e-mail → <em>descartado</em>. Falha de rede/API → <em>erro</em> (alerta no Telegram, com <code>/retry</code>).</p>
 </div></section>
-
 <section id="pre"><div class="wrap">
-  <span class="chip">Pré-requisitos</span>
-  <h2>O que você vai precisar (v1, local)</h2>
-  <p class="sub">A v1 roda na sua máquina — o navegador resolve o captcha do Maps com você por perto. As versões seguintes migram pra API e VPS.</p>
-  <div class="grid g3">
-    <div class="card"><h3>Python 3.11+</h3><p>Todo o núcleo. Sem dependências pesadas no começo.</p><pre><span class="c"># confira a versão</span>
+<span class="chip">Pré-requisitos</span>
+<h2>O que você vai precisar (v1, local)</h2>
+<p class="sub">A v1 roda na sua máquina — o navegador resolve o captcha do Maps com você por perto. As versões seguintes migram pra API e VPS.</p>
+<div class="grid g3">
+<div class="card"><h3>Python 3.11+</h3><p>Todo o núcleo. Sem dependências pesadas no começo.</p><pre><span class="c"># confira a versão</span>
 <span class="k">python3</span> --version</pre></div>
-    <div class="card"><h3>Claude Code CLI</h3><p>As fases de IA (qualificar, redesenhar) usam <code>claude -p</code> com skills.</p><pre><span class="c"># confira o CLI</span>
+<div class="card"><h3>Claude Code CLI</h3><p>As fases de IA (qualificar, redesenhar) usam <code>claude -p</code> com skills.</p><pre><span class="c"># confira o CLI</span>
 <span class="k">claude</span> --version</pre></div>
-    <div class="card"><h3>Contas + segredos</h3><p>Resend (e-mail), GitHub (Pages), Telegram (bot). Tokens só no <code>.env</code>, nunca no chat.</p><pre><span class="c"># template</span>
+<div class="card"><h3>Contas + segredos</h3><p>Resend (e-mail), GitHub (Pages), Telegram (bot). Tokens só no <code>.env</code>, nunca no chat.</p><pre><span class="c"># template</span>
 <span class="k">cp</span> .env.example .env</pre></div>
-  </div>
+</div>
 </div></section>
-
 <section id="guia"><div class="wrap">
-  <span class="chip">Guia de uso · roteiro por milestone</span>
-  <h2>Como colocar de pé</h2>
-  <p class="sub">A construção é por milestones, cada um entregando software testável. O <strong>M1 (Fundação)</strong> é o alvo atual — o design e o plano já estão no repo.</p>
-
-  <div class="note"><strong>Status:</strong> v1 (núcleo determinístico) <strong>construído e testado — 47 testes verdes</strong>. Os comandos <code>demo</code> e <code>prospectar --provider fake</code> já rodam; os que tocam Google Maps, <code>claude -p</code>, Resend, Telegram e deploy dependem das suas credenciais (ver README → "O que falta").</div>
-
-  <div class="step" style="margin-top:26px"><div class="b">0</div><div>
-    <h3>Clonar e ler o design</h3>
-    <p>Todo o projeto parte de um spec e um plano versionados.</p>
+<span class="chip">Guia de uso · roteiro por milestone</span>
+<h2>Como colocar de pé</h2>
+<p class="sub">A construção é por milestones, cada um entregando software testável. O <strong>M1 (Fundação)</strong> é o alvo atual — o design e o plano já estão no repo.</p>
+<div class="note"><strong>Status:</strong> v1 (núcleo determinístico) <strong>construído e testado — 47 testes verdes</strong>. Os comandos <code>demo</code> e <code>prospectar --provider fake</code> já rodam; os que tocam Google Maps, <code>claude -p</code>, Resend, Telegram e deploy dependem das suas credenciais (ver README → "O que falta").</div>
+<div class="step" style="margin-top:26px"><div class="b">0</div><div>
+<h3>Clonar e ler o design</h3>
+<p>Todo o projeto parte de um spec e um plano versionados.</p>
 <pre><span class="k">git clone</span> <span class="s">https://github.com/inematds/prospector-agent</span>
 <span class="k">cd</span> prospector-agent
 <span class="c"># design completo e plano do M1:</span>
 <span class="c">#   docs/superpowers/specs/2026-07-14-prospector-agent-design.md</span>
 <span class="c">#   docs/superpowers/plans/2026-07-14-m1-fundacao.md</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">1</div><div>
-    <h3>M1 · Fundação — o núcleo e o dry-run</h3>
-    <p>Config, Store SQLite, máquina de estados e a CLI que avança um lead pela esteira sem publicar nem enviar.</p>
+</div></div>
+<div class="step"><div class="b">1</div><div>
+<h3>M1 · Fundação — o núcleo e o dry-run</h3>
+<p>Config, Store SQLite, máquina de estados e a CLI que avança um lead pela esteira sem publicar nem enviar.</p>
 <pre><span class="k">python</span> -m pytest -v                 <span class="c"># suíte do núcleo</span>
 <span class="k">python</span> -m prospector demo --dry-run --auto
 <span class="c"># → descoberto → qualificado → redesenhado → publicado → enviado</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">2</div><div>
-    <h3>M2 · Descoberta + Qualificação</h3>
-    <p>Acha candidatos no Google Maps (nota ≥ 4.7, com site) e julga quais têm site ruim, extraindo e-mail e WhatsApp.</p>
+</div></div>
+<div class="step"><div class="b">2</div><div>
+<h3>M2 · Descoberta + Qualificação</h3>
+<p>Acha candidatos no Google Maps (nota ≥ 4.7, com site) e julga quais têm site ruim, extraindo e-mail e WhatsApp.</p>
 <pre><span class="k">prospector</span> prospectar <span class="s">nutricionistas</span> <span class="s">Bauru</span>
 <span class="c"># → leads qualificados salvos no prospector.db</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">3</div><div>
-    <h3>M3 · Criação + Publicação</h3>
-    <p>Redesenha a página premium (mantendo logo, cores e conteúdo reais) e publica no GitHub Pages com HTTPS.</p>
+</div></div>
+<div class="step"><div class="b">3</div><div>
+<h3>M3 · Criação + Publicação</h3>
+<p>Redesenha a página premium (mantendo logo, cores e conteúdo reais) e publica no GitHub Pages com HTTPS.</p>
 <pre><span class="k">prospector</span> publicar <span class="s">&lt;slug&gt;</span>
 <span class="c"># → https://usuario.github.io/prospector-sites/&lt;slug&gt;/</span></pre>
-  </div></div>
-
-  <div class="step"><div class="b">4</div><div>
-    <h3>M4 · Envio + Telegram (esteira completa)</h3>
-    <p>Manda a proposta via Resend, com o portão de aprovação no Telegram. O bot opera tudo; o <code>--auto</code> pula o portão.</p>
+</div></div>
+<div class="step"><div class="b">4</div><div>
+<h3>M4 · Envio + Telegram (esteira completa)</h3>
+<p>Manda a proposta via Resend, com o portão de aprovação no Telegram. O bot opera tudo; o <code>--auto</code> pula o portão.</p>
 <pre><span class="c"># pelo bot do Telegram:</span>
 /prospectar <span class="s">nutricionistas</span> <span class="s">Bauru</span> --auto
 <span class="c"># fases correm sozinhas; o bot notifica cada envio</span></pre>
-  </div></div>
+</div></div>
 </div></section>
-
 <section id="nucleo"><div class="wrap">
-  <span class="chip">O núcleo</span>
-  <h2>Controle determinístico, em código</h2>
-  <p class="sub">O coração do sistema não é o agente — é a máquina de estados e o portão. Ficam em código simples e testável; a IA é chamada só dentro de dois estágios.</p>
-  <div class="grid g2">
-    <pre><span class="c"># prospector/maquina_estados.py — transições válidas</span>
+<span class="chip">O núcleo</span>
+<h2>Controle determinístico, em código</h2>
+<p class="sub">O coração do sistema não é o agente — é a máquina de estados e o portão. Ficam em código simples e testável; a IA é chamada só dentro de dois estágios.</p>
+<div class="grid g2">
+<pre><span class="c"># prospector/maquina_estados.py — transições válidas</span>
 TRANSICOES = {
   DESCOBERTO: {QUALIFICADO, DESCARTADO},
   QUALIFICADO: {REDESENHADO, DESCARTADO},
@@ -243,7 +231,7 @@ TRANSICOES = {
   ENVIADO: {RESPONDIDO, ERRO},
   RESPONDIDO: {FECHADO, DESCARTADO},
 }</pre>
-    <pre><span class="c"># o portão A+B, em uma linha</span>
+<pre><span class="c"># o portão A+B, em uma linha</span>
 <span class="k">if</span> lead.sem_portao <span class="k">or</span> aprovado_no_telegram(lead):
     enviar(lead)          <span class="c"># Resend</span>
 <span class="k">else</span>:
@@ -253,27 +241,24 @@ TRANSICOES = {
 $ python -m prospector demo --dry-run --auto
 descoberto → qualificado → redesenhado
            → publicado → <span class="s">enviado</span></pre>
-  </div>
+</div>
 </div></section>
-
 <section id="roadmap"><div class="wrap">
-  <span class="chip">Roadmap</span>
-  <h2>Local → híbrido → tudo em VPS</h2>
-  <p class="sub">A portabilidade de topologia é um princípio de design: a mesma base sobe de nível só trocando config e onde roda.</p>
-  <div class="phase"><div class="tag">v1 · Local</div><div class="d"><strong>Esteira completa na sua máquina</strong><span>Descoberta por navegador (você resolve o captcha), portão ligado, dashboard local.</span></div></div>
-  <div class="phase"><div class="tag">v1.x · Híbrido</div><div class="d"><strong>Orquestrador na VPS</strong><span>Bot, publicação e envio sempre no ar na VPS; o scanner (browser) fica local e empurra os leads.</span></div></div>
-  <div class="phase"><div class="tag">v2 · Tudo VPS</div><div class="d"><strong>Descoberta por API, sem navegador</strong><span>Places API (oficial) ou terceiros como provider plugável; repo próprio + domínio custom por cliente na conversão.</span></div></div>
+<span class="chip">Roadmap</span>
+<h2>Local → híbrido → tudo em VPS</h2>
+<p class="sub">A portabilidade de topologia é um princípio de design: a mesma base sobe de nível só trocando config e onde roda.</p>
+<div class="phase"><div class="tag">v1 · Local</div><div class="d"><strong>Esteira completa na sua máquina</strong><span>Descoberta por navegador (você resolve o captcha), portão ligado, dashboard local.</span></div></div>
+<div class="phase"><div class="tag">v1.x · Híbrido</div><div class="d"><strong>Orquestrador na VPS</strong><span>Bot, publicação e envio sempre no ar na VPS; o scanner (browser) fica local e empurra os leads.</span></div></div>
+<div class="phase"><div class="tag">v2 · Tudo VPS</div><div class="d"><strong>Descoberta por API, sem navegador</strong><span>Places API (oficial) ou terceiros como provider plugável; repo próprio + domínio custom por cliente na conversão.</span></div></div>
 </div></section>
-
 <footer>
-  <div class="wrap">
-    <div class="pill">Python 3.11+</div><div class="pill">SQLite</div><div class="pill">Claude Code (claude -p)</div><div class="pill">GitHub Pages</div><div class="pill">Resend</div><div class="pill">Telegram</div>
-    <p style="margin-top:18px">Prospector Agent · v1 núcleo construído (47 testes) — integrações dependem de credenciais ·
+<div class="wrap">
+<div class="pill">Python 3.11+</div><div class="pill">SQLite</div><div class="pill">Claude Code (claude -p)</div><div class="pill">GitHub Pages</div><div class="pill">Resend</div><div class="pill">Telegram</div>
+<p style="margin-top:18px">Prospector Agent · v1 núcleo construído (47 testes) — integrações dependem de credenciais ·
       <a href="https://github.com/inematds/prospector-agent">github.com/inematds/prospector-agent</a> ·
       <a href="https://inema.club">INEMA.CLUB</a></p>
-  </div>
+</div>
 </footer>
-
 <script>
   (function(){
     var KEY='prospector-agent-theme';
